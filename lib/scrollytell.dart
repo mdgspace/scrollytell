@@ -18,7 +18,7 @@ class ScrollyWidget extends StatefulWidget {
 
   //callbacks
 
-  final VoidCallback panelStartCallback;
+  final Function(num, Widget, Function) panelStartCallback;
   final VoidCallback panelEndCallback;
   final Function(List<num>) panelProgressCallback;
 
@@ -74,28 +74,29 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
       }
     }
     int i = 0;
-    var current_offset = _scrollController.offset;
+    var currentOffset = _scrollController.offset;
     while (i < _panelPrefixHeights.length - 1 &&
-        current_offset >= _panelPrefixHeights[i]) {
+        currentOffset >= _panelPrefixHeights[i]) {
       i++;
     }
 
-    var progress_offset = current_offset - _panelPrefixHeights[i - 1];
+    var progressOffset = currentOffset - _panelPrefixHeights[i - 1];
     var previousPanelIndex = activePanelIndex ?? -1;
 
     setState(() {
       activePanelIndex = i;
       progress = i == 0
-          ? progress_offset / _panelPrefixHeights[i]
-          : progress_offset /
+          ? progressOffset / _panelPrefixHeights[i]
+          : progressOffset /
           (_panelPrefixHeights[i] - _panelPrefixHeights[i - 1]);
     });
     print('panel index: $activePanelIndex ,progress : $progress ');
-    if (_scrollController.position.userScrollDirection ==
-        ScrollDirection.reverse) {
-      if (previousPanelIndex < activePanelIndex) {
-        widget.panelStartCallback();
-      }
+
+    if (previousPanelIndex != activePanelIndex) {
+      widget.panelStartCallback(activePanelIndex, overLayWidget,
+              (newOverlay) => {this.setState(() => overLayWidget = newOverlay)});
+
+
     }
     // Dart do not have tuple or pair class so returning list of two num element here
     widget.panelProgressCallback([activePanelIndex, progress]);
@@ -213,7 +214,6 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
 //    print("Panel Prefix height: $_panelPrefixHeights");
     }
   }
-}
 
 class PanelWidget extends StatefulWidget {
   PanelWidget({Key key, Widget rawPanel})
