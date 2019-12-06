@@ -1,0 +1,5 @@
+library scrollytell;
+
+class ScrollyTell {
+
+}
