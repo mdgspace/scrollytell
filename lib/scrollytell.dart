@@ -14,21 +14,27 @@ class ScrollyWidget extends StatefulWidget {
     @required this.panelEndCallback,
     @required this.panelProgressCallback,
     this.lastPanelForceComplete = false,
+    this.opacity = 1,
+    this.initialOverlayWidget,
   });
 
   //callbacks
 
-  final Function(num, Widget, Function) panelStartCallback;
+  final Function(num, Function) panelStartCallback;
   final VoidCallback panelEndCallback;
-  final Function(List<num>) panelProgressCallback;
+  final Function(num, double, Function) panelProgressCallback;
 
   //panelList
   final List<Widget> panels;
 
-
   //Set to TRUE if the last panel hits bottom of the screen hence prohibiting the scroll and want to enable complete scroll
   final bool lastPanelForceComplete;
 
+  //Overlay opacity
+  final double opacity;
+
+  //Initial overlay widget
+  final Widget initialOverlayWidget;
 
   @override
   _ScrollyWidgetState createState() => _ScrollyWidgetState(panels);
@@ -88,18 +94,18 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
       progress = i == 0
           ? progressOffset / _panelPrefixHeights[i]
           : progressOffset /
-          (_panelPrefixHeights[i] - _panelPrefixHeights[i - 1]);
+              (_panelPrefixHeights[i] - _panelPrefixHeights[i - 1]);
     });
     print('panel index: $activePanelIndex ,progress : $progress ');
 
     if (previousPanelIndex != activePanelIndex) {
-      widget.panelStartCallback(activePanelIndex, overLayWidget,
-              (newOverlay) => {this.setState(() => overLayWidget = newOverlay)});
-
-
+      widget.panelStartCallback(activePanelIndex,
+          (newOverlay) => {this.setState(() => overLayWidget = newOverlay)});
     }
+
     // Dart do not have tuple or pair class so returning list of two num element here
-    widget.panelProgressCallback([activePanelIndex, progress]);
+    widget.panelProgressCallback(activePanelIndex, progress,
+        (newOverlay) => {this.setState(() => overLayWidget = newOverlay)});
   }
 
   @override
@@ -117,16 +123,15 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
     //Call after render
     WidgetsBinding.instance.addPostFrameCallback((_) => _getHeight());
 
-    // TODO:: Temporary(to be changed later): Initializing overlayWidget in initState()
-    overLayWidget = Opacity(
-      opacity: 0.7,
-      child:
-          Container(padding: EdgeInsets.all(16), child: Text('OverlayWidget')),
-    );
+
 
     //initializing active panel index to 1 and progress to 0
     activePanelIndex = 1;
     progress = 0.0;
+
+    if (widget.initialOverlayWidget != null) {
+      overLayWidget = widget.initialOverlayWidget;
+    }
 
     super.initState();
   }
@@ -152,11 +157,12 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
             widget.lastPanelForceComplete
                 ? SliverFillRemaining()
                 : SliverToBoxAdapter(
-              child: Container(),
-            )
+                    child: Container(),
+                  )
           ],
         ),
-        overLayWidget
+        Opacity(opacity: widget.opacity, child: overLayWidget)
+
       ],
     );
   }
@@ -212,8 +218,8 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
     });
 
 //    print("Panel Prefix height: $_panelPrefixHeights");
-    }
   }
+}
 
 class PanelWidget extends StatefulWidget {
   PanelWidget({Key key, Widget rawPanel})
