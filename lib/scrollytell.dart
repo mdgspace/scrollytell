@@ -15,10 +15,9 @@ class ScrollyWidget extends StatefulWidget {
 }
 
 class _ScrollyWidgetState extends State<ScrollyWidget> {
-
-  _ScrollyWidgetState(panels):
-        this.keys = new List.generate(panels.length, (_) => new GlobalKey<_PanelWidgetState>());
-
+  _ScrollyWidgetState(panels)
+      : this.keys = new List.generate(
+            panels.length, (_) => new GlobalKey<_PanelWidgetState>());
 
   // User controls the overlay widget state through the callbacks
   Widget overLayWidget;
@@ -35,7 +34,6 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
   // panel height, Using Map to maintain proper mapping(panelNumber, panelHeight) at all the time
   Map<int, double> _panelHeights;
   List<double> _panelPrefixHeights;
-
 
   int _heightFillIndex;
 
@@ -88,7 +86,7 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
           slivers: <Widget>[
             SliverList(
               delegate:
-              SliverChildBuilderDelegate((BuildContext context, int index) {
+                  SliverChildBuilderDelegate((BuildContext context, int index) {
                 return PanelWidget(
                   key: keys[index],
                   rawPanel: widget.panels[index],
@@ -103,17 +101,16 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
   }
 
   void _getHeight() {
-    final List<State> states =
-    List.generate(widget.panels.length, (index) => keys[index].currentState);
-    final List<BuildContext> contexts =
-    List.generate(widget.panels.length, (index) => keys[index].currentContext);
+    final List<State> states = List.generate(
+        widget.panels.length, (index) => keys[index].currentState);
+    final List<BuildContext> contexts = List.generate(
+        widget.panels.length, (index) => keys[index].currentContext);
 
-    final List<RenderBox> boxes = List.generate(
-        widget.panels.length, (index) => states[index]?.context?.findRenderObject());
+    final List<RenderBox> boxes = List.generate(widget.panels.length,
+        (index) => states[index]?.context?.findRenderObject());
 
     boxes.asMap().forEach(
-            (index, box) => print("Box $index Height : ${box?.size?.height}"));
-
+        (index, box) => print("Box $index Height : ${box?.size?.height}"));
 
     setState(() {
       _panelHeights = List.generate(widget.panels.length, (index) {
@@ -123,7 +120,6 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
           return _panelHeights[index];
         }
       }).asMap();
-
     });
 
     final nullIndex = getNullIndex();
@@ -133,19 +129,17 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
       _heightFillIndex = nullIndex;
     });
 
-    if(nullIndex == -1){
+    if (nullIndex == -1) {
       calculatePanelPrefixHeight();
     }
 
     print(_panelHeights);
     print(_heightFillIndex);
-
   }
 
   getNullIndex() {
-
-    for(var i = 0; i < _panelHeights.length; i++){
-      if(_panelHeights[i] == null){
+    for (var i = 0; i < _panelHeights.length; i++) {
+      if (_panelHeights[i] == null) {
         return i;
       }
     }
@@ -156,10 +150,9 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
   void calculatePanelPrefixHeight() {
     List<double> pph = List.generate(widget.panels.length, (_) => 0.0);
 
-
-    for(var i = 1; i < _panelHeights.length; i++){
-      assert (_panelHeights[i] != null);
-      pph[i] = pph[i-1] + _panelHeights[i];
+    for (var i = 1; i < _panelHeights.length; i++) {
+      assert(_panelHeights[i] != null);
+      pph[i] = pph[i - 1] + _panelHeights[i];
     }
 
     setState(() {
