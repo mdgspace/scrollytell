@@ -1,7 +1,7 @@
 # ✨ Flutter  Scrollytell
 
 
-A collection of loading indicators animated with flutter. Heavily inspired by [@google](https://github.com/google)'s [Scrollytell](https://github.com/google/scrollytell).
+A collection of loading indicators animated with flutter. Inspired by [@google](https://github.com/google)'s [Scrollytell](https://github.com/google/scrollytell).
 
 ## 🎖 Installing
 
@@ -65,7 +65,7 @@ For more info, please, refer to the `basic_usage` app in the example.
 <table>
   <tr>
     <td align="center">
-      <img src="https://raw.githubusercontent.com/mdg-iitr/scrollytell/blob/master/screenshots/BasicUsage.gif" width="300px">
+      <img src="https://github.com/mdg-iitr/scrollytell/blob/master/screenshots/BasicUsage.gif" width="300px">
     </td>
   </tr>
 </table>
