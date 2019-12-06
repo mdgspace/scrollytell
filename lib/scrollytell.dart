@@ -51,6 +51,8 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
   // Index of active panel
   int activePanelIndex;
 
+  // TODO (Abhishek): Set precision for progress, so that comparing is possible
+
   // progress indicator [0,1]
   double progress;
 
@@ -106,6 +108,8 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
     // Dart do not have tuple or pair class so returning list of two num element here
     widget.panelProgressCallback(activePanelIndex, progress,
         (newOverlay) => {this.setState(() => overLayWidget = newOverlay)});
+
+    //TODO: (Abhishek) When .97 <= progress < 1 panelEndCallback
   }
 
   @override
@@ -122,8 +126,6 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
 
     //Call after render
     WidgetsBinding.instance.addPostFrameCallback((_) => _getHeight());
-
-
 
     //initializing active panel index to 1 and progress to 0
     activePanelIndex = 1;
@@ -143,7 +145,7 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
       children: <Widget>[
         CustomScrollView(
           controller: _scrollController,
-          //TODO: Provide flexibility to directly input sliverList
+          //TODO: (Later) Provide flexibility to directly input sliverList
           slivers: <Widget>[
             SliverList(
               delegate:
@@ -162,7 +164,6 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
           ],
         ),
         Opacity(opacity: widget.opacity, child: overLayWidget)
-
       ],
     );
   }
@@ -216,8 +217,6 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
     setState(() {
       _panelPrefixHeights = pph;
     });
-
-//    print("Panel Prefix height: $_panelPrefixHeights");
   }
 }
 
