@@ -3,19 +3,20 @@ library scrollytell;
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 // Using ScrollController instead of ScrollNotification - https://api.flutter.dev/flutter/widgets/ScrollNotification-class.html
 
 class ScrollyWidget extends StatefulWidget {
   ScrollyWidget(
       {@required this.panels,
-      this.panelStartCallback,
-      this.panelEndCallback,
-      this.panelProgressCallback});
+      @required this.panelStartCallback,
+      @required this.panelEndCallback,
+      @required this.panelProgressCallback});
 
   final VoidCallback panelStartCallback;
   final VoidCallback panelEndCallback;
-  final VoidCallback panelProgressCallback;
+  final Function(List<num>) panelProgressCallback;
   final List<Widget> panels;
 
   @override
@@ -68,12 +69,21 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
     }
 
     var progress_offset = current_offset - _panelPrefixHeights[i - 1];
+    var previousPanelIndex = activePanelIndex ?? -1;
 
     setState(() {
       activePanelIndex = i;
       progress = progress_offset / _panelPrefixHeights[i];
     });
     print('panel index: $activePanelIndex ,progress : $progress ');
+    if (_scrollController.position.userScrollDirection ==
+        ScrollDirection.reverse) {
+      if (previousPanelIndex < activePanelIndex) {
+        widget.panelStartCallback();
+      }
+    }
+    // Dart do not have tuple or pair class so returning list of two num element here
+    widget.panelProgressCallback([activePanelIndex, progress]);
   }
 
   @override
