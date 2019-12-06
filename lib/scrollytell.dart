@@ -38,6 +38,8 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
 
   _scrollListener(){
     print("Scroll Offset ${_scrollController.offset}");
+    _getHeight();
+
   }
 
   @override
@@ -92,14 +94,13 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
   }
 
   void _getHeight() {
-    final GlobalKey key0 = widget.panels[0].key;
-    final State state = key0.currentState;
-    final BuildContext context0 = key0.currentContext;
+    final List<State> states = List.generate(20, (index) => keys[index].currentState);
+    final List<BuildContext> contexts = List.generate(20, (index) => keys[index].currentContext);
 
-    final RenderBox box = state.context.findRenderObject();
+    final List<RenderBox> boxes = List.generate(20, (index) => states[index]?.context?.findRenderObject());
 
-    print(box.size.height);
-    print(context0.size.height);
+    boxes.asMap().forEach((index, box) => print("Box $index Height : ${box?.size?.height}"));
+
   }
 
 }
