@@ -66,10 +66,6 @@ For more info, please, refer to the `basic_usage` app in the example.
   <tr>
     <td align="center">
       <img src="https://raw.githubusercontent.com/mdg-iitr/scrollytell/master/screenshots/BasicUsage.gif" width="300px">
-      <br />
-      RotatingPlane
-      <br />
-      ✅
     </td>
   </tr>
 </table>
