@@ -16,8 +16,6 @@ class ScrollyWidget extends StatefulWidget {
     this.lastPanelForceComplete = false,
     this.opacity = 1,
     this.initialOverlayWidget,
-    this.height,
-    this.width,
   });
 
   //callbacks
@@ -37,10 +35,6 @@ class ScrollyWidget extends StatefulWidget {
 
   //Initial overlay widget
   final Widget initialOverlayWidget;
-
-  final double height;
-
-  final double width;
 
   @override
   _ScrollyWidgetState createState() => _ScrollyWidgetState(panels);
@@ -153,41 +147,38 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
   @override
   Widget build(BuildContext context) {
     // The stack paints its children in order with the first child being at the bottom.
-    return Container(
-      height: widget.height,
-      width: widget.width,
-      child: Stack(
-        children: <Widget>[
-          CustomScrollView(
 
-            controller: _scrollController,
-            //TODO: (Later) Provide flexibility to directly input sliverList
-            slivers: <Widget>[
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                  return PanelWidget(
-                    key: _keys[index],
-                    rawPanel: widget.panels[index],
-                  );
-                }, childCount: widget.panels.length),
-              ),
-              widget.lastPanelForceComplete
-                  ? SliverFillRemaining()
-                  : SliverToBoxAdapter(
-                      child: Container(),
-                    )
-            ],
-          ),
-          Opacity(
-            opacity: widget.opacity,
-            child: IgnorePointer(
-              child: _overLayWidget,
-              ignoring: true,
+    return Stack(
+      children: <Widget>[
+        CustomScrollView(
+
+          controller: _scrollController,
+          //TODO: (Later) Provide flexibility to directly input sliverList
+          slivers: <Widget>[
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                return PanelWidget(
+                  key: _keys[index],
+                  rawPanel: widget.panels[index],
+                );
+              }, childCount: widget.panels.length),
             ),
-          )
-        ],
-      ),
+            widget.lastPanelForceComplete
+                ? SliverFillRemaining()
+                : SliverToBoxAdapter(
+                    child: Container(),
+                  )
+          ],
+        ),
+        Opacity(
+          opacity: widget.opacity,
+          child: IgnorePointer(
+            child: _overLayWidget,
+            ignoring: true,
+          ),
+        )
+      ],
     );
   }
 
