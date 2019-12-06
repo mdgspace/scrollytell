@@ -125,7 +125,7 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
         progress >= 0.97 &&
         progress < 1.0) {
       widget.panelEndCallback(activePanelIndex,
-              (newOverlay) => {this.setState(() => overLayWidget = newOverlay)});
+          (newOverlay) => {this.setState(() => overLayWidget = newOverlay)});
     }
   }
 
@@ -180,7 +180,13 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
                   )
           ],
         ),
-        Opacity(opacity: widget.opacity, child: overLayWidget)
+        Opacity(
+          opacity: widget.opacity,
+          child: IgnorePointer(
+            child: overLayWidget,
+            ignoring: true,
+          ),
+        ),
       ],
     );
   }
