@@ -16,6 +16,8 @@ class ScrollyWidget extends StatefulWidget {
     this.lastPanelForceComplete = false,
     this.opacity = 1,
     this.initialOverlayWidget,
+    this.shrinkWrapCustomScrollView = false,
+    this.scrollPhysicsCustomScrollView
   });
 
   //callbacks
@@ -35,6 +37,13 @@ class ScrollyWidget extends StatefulWidget {
 
   //Initial overlay widget
   final Widget initialOverlayWidget;
+
+  //ShrinkWrap for CustomScrollView
+  final bool shrinkWrapCustomScrollView;
+
+  //Scroll Physics for CustomScrollView
+  final ScrollPhysics scrollPhysicsCustomScrollView;
+
 
   @override
   _ScrollyWidgetState createState() => _ScrollyWidgetState(panels);
@@ -151,8 +160,9 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
     return Stack(
       children: <Widget>[
         CustomScrollView(
-
+          shrinkWrap: widget.shrinkWrapCustomScrollView,
           controller: _scrollController,
+          physics: widget.scrollPhysicsCustomScrollView,
           //TODO: (Later) Provide flexibility to directly input sliverList
           slivers: <Widget>[
             SliverList(
