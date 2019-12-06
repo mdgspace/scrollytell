@@ -8,16 +8,27 @@ import 'package:flutter/rendering.dart';
 // Using ScrollController instead of ScrollNotification - https://api.flutter.dev/flutter/widgets/ScrollNotification-class.html
 
 class ScrollyWidget extends StatefulWidget {
-  ScrollyWidget(
-      {@required this.panels,
-      @required this.panelStartCallback,
-      @required this.panelEndCallback,
-      @required this.panelProgressCallback});
+  ScrollyWidget({
+    @required this.panels,
+    @required this.panelStartCallback,
+    @required this.panelEndCallback,
+    @required this.panelProgressCallback,
+    this.lastPanelForceComplete = false,
+  });
+
+  //callbacks
 
   final VoidCallback panelStartCallback;
   final VoidCallback panelEndCallback;
   final Function(List<num>) panelProgressCallback;
+
+  //panelList
   final List<Widget> panels;
+
+
+  //Set to TRUE if the last panel hits bottom of the screen hence prohibiting the scroll and want to enable complete scroll
+  final bool lastPanelForceComplete;
+
 
   @override
   _ScrollyWidgetState createState() => _ScrollyWidgetState(panels);
@@ -64,7 +75,8 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
     }
     int i = 0;
     var current_offset = _scrollController.offset;
-    while (current_offset >= _panelPrefixHeights[i]) {
+    while (i < _panelPrefixHeights.length - 1 &&
+        current_offset >= _panelPrefixHeights[i]) {
       i++;
     }
 
@@ -73,7 +85,10 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
 
     setState(() {
       activePanelIndex = i;
-      progress = progress_offset / _panelPrefixHeights[i];
+      progress = i == 0
+          ? progress_offset / _panelPrefixHeights[i]
+          : progress_offset /
+          (_panelPrefixHeights[i] - _panelPrefixHeights[i - 1]);
     });
     print('panel index: $activePanelIndex ,progress : $progress ');
     if (_scrollController.position.userScrollDirection ==
@@ -132,6 +147,11 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
                   rawPanel: widget.panels[index],
                 );
               }, childCount: widget.panels.length),
+            ),
+            widget.lastPanelForceComplete
+                ? SliverFillRemaining()
+                : SliverToBoxAdapter(
+              child: Container(),
             )
           ],
         ),
@@ -177,25 +197,20 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
   }
 
   void calculatePanelPrefixHeight() {
-    List<double> pph = List.generate(widget.panels.length, (_) => 0.0);
-
-    for (var i = 1; i < _panelHeights.length; i++) {
-      assert(_panelHeights[i] != null);
-      pph[i] = pph[i - 1] + _panelHeights[i];
-      pph[0] = 0.0;
-      for (int i = 1; i < widget.panels.length; i++) {
-        if (_panelHeights[i - 1] != null) {
-          pph[i] = pph[i - 1] + _panelHeights[i - 1];
-        } else {
-          pph[i] = pph[i - 1];
-        }
+    List<double> pph = List.generate(widget.panels.length + 1, (_) => 0.0);
+    pph[0] = 0.0;
+    for (int i = 1; i <= widget.panels.length; i++) {
+      if (_panelHeights[i - 1] != null) {
+        pph[i] = pph[i - 1] + _panelHeights[i - 1];
+      } else {
+        pph[i] = pph[i - 1];
       }
+    }
+    setState(() {
+      _panelPrefixHeights = pph;
+    });
 
-      setState(() {
-        _panelPrefixHeights = pph;
-      });
-
-      print("Panel Prefix height: $_panelPrefixHeights");
+//    print("Panel Prefix height: $_panelPrefixHeights");
     }
   }
 }
