@@ -21,7 +21,7 @@ class ScrollyWidget extends StatefulWidget {
   //callbacks
 
   final Function(num, Function) panelStartCallback;
-  final VoidCallback panelEndCallback;
+  final Function(num, Function) panelEndCallback;
   final Function(num, double, Function) panelProgressCallback;
 
   //panelList
@@ -52,9 +52,10 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
   int activePanelIndex;
 
   // TODO (Abhishek): Set precision for progress, so that comparing is possible
+  //Done
 
   // progress indicator [0,1]
-  double progress;
+  num progress;
 
   // Scroll controller
   ScrollController _scrollController;
@@ -90,13 +91,20 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
 
     var progressOffset = currentOffset - _panelPrefixHeights[i - 1];
     var previousPanelIndex = activePanelIndex ?? -1;
+    var previousProgress = progress;
+
+    // taking four digit after decimal for precision
+    // if we take lesser than this the the callback is called several time on
+    // same progress
 
     setState(() {
       activePanelIndex = i;
       progress = i == 0
-          ? progressOffset / _panelPrefixHeights[i]
-          : progressOffset /
-              (_panelPrefixHeights[i] - _panelPrefixHeights[i - 1]);
+          ? num.parse(
+              (progressOffset / _panelPrefixHeights[i]).toStringAsFixed(4))
+          : num.parse((progressOffset /
+                  (_panelPrefixHeights[i] - _panelPrefixHeights[i - 1]))
+              .toStringAsFixed(4));
     });
     print('panel index: $activePanelIndex ,progress : $progress ');
 
@@ -110,6 +118,15 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
         (newOverlay) => {this.setState(() => overLayWidget = newOverlay)});
 
     //TODO: (Abhishek) When .97 <= progress < 1 panelEndCallback
+    // Done
+
+    if (previousPanelIndex == activePanelIndex &&
+        previousProgress < 0.97 &&
+        progress >= 0.97 &&
+        progress < 1.0) {
+      widget.panelEndCallback(activePanelIndex,
+              (newOverlay) => {this.setState(() => overLayWidget = newOverlay)});
+    }
   }
 
   @override
