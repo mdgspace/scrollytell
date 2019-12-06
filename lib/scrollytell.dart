@@ -7,7 +7,15 @@ import 'package:flutter/material.dart';
 // Using ScrollController instead of ScrollNotification - https://api.flutter.dev/flutter/widgets/ScrollNotification-class.html
 
 class ScrollyWidget extends StatefulWidget {
-  ScrollyWidget({this.panels});
+  ScrollyWidget(
+      {@required this.panels,
+      this.panelStartCallback,
+      this.panelEndCallback,
+      this.panelProgressCallback});
+
+  final VoidCallback panelStartCallback;
+  final VoidCallback panelEndCallback;
+  final VoidCallback panelProgressCallback;
   final List<Widget> panels;
 
   @override
@@ -42,13 +50,30 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
   // Scroll Listener
   // Todo: Temporarily manipulating the overlayWidget in the scrollListener, add the wrapper later
 
-  _scrollListener() {
-//        print("Scroll Offset ${_scrollController.offset}");
+  void _scrollListener() {
     //TODO: (IMP) change to variable height implementation using panelPrefixHeights
-    if (_heightFillIndex != -1 &&
-        _scrollController.offset >= _panelHeights[0] * (_heightFillIndex - 1)) {
-      _getHeight();
+    if (_heightFillIndex != -1) {
+      double filled = 0.0;
+      for (int i = 0; i < _heightFillIndex; i++) {
+        filled += _panelHeights[i];
+      }
+      if (_scrollController.offset >= filled) {
+        _getHeight();
+      }
     }
+    int i = 0;
+    var current_offset = _scrollController.offset;
+    while (current_offset >= _panelPrefixHeights[i]) {
+      i++;
+    }
+
+    var progress_offset = current_offset - _panelPrefixHeights[i - 1];
+
+    setState(() {
+      activePanelIndex = i;
+      progress = progress_offset / _panelPrefixHeights[i];
+    });
+    print('panel index: $activePanelIndex ,progress : $progress ');
   }
 
   @override
@@ -72,6 +97,11 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
       child:
           Container(padding: EdgeInsets.all(16), child: Text('OverlayWidget')),
     );
+
+    //initializing active panel index to 1 and progress to 0
+    activePanelIndex = 1;
+    progress = 0.0;
+
     super.initState();
   }
 
@@ -103,14 +133,9 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
   void _getHeight() {
     final List<State> states = List.generate(
         widget.panels.length, (index) => keys[index].currentState);
-    final List<BuildContext> contexts = List.generate(
-        widget.panels.length, (index) => keys[index].currentContext);
 
     final List<RenderBox> boxes = List.generate(widget.panels.length,
         (index) => states[index]?.context?.findRenderObject());
-
-    boxes.asMap().forEach(
-        (index, box) => print("Box $index Height : ${box?.size?.height}"));
 
     setState(() {
       _panelHeights = List.generate(widget.panels.length, (index) {
@@ -123,18 +148,12 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
     });
 
     final nullIndex = getNullIndex();
-    print("Null Index $nullIndex");
 
     setState(() {
       _heightFillIndex = nullIndex;
     });
 
-    if (nullIndex == -1) {
-      calculatePanelPrefixHeight();
-    }
-
-    print(_panelHeights);
-    print(_heightFillIndex);
+    calculatePanelPrefixHeight();
   }
 
   getNullIndex() {
@@ -153,13 +172,21 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
     for (var i = 1; i < _panelHeights.length; i++) {
       assert(_panelHeights[i] != null);
       pph[i] = pph[i - 1] + _panelHeights[i];
+      pph[0] = 0.0;
+      for (int i = 1; i < widget.panels.length; i++) {
+        if (_panelHeights[i - 1] != null) {
+          pph[i] = pph[i - 1] + _panelHeights[i - 1];
+        } else {
+          pph[i] = pph[i - 1];
+        }
+      }
+
+      setState(() {
+        _panelPrefixHeights = pph;
+      });
+
+      print("Panel Prefix height: $_panelPrefixHeights");
     }
-
-    setState(() {
-      _panelPrefixHeights = pph;
-    });
-
-    print("Panel Prefix height: $_panelPrefixHeights");
   }
 }
 
