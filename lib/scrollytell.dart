@@ -25,6 +25,17 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
   // Scroll controller
   ScrollController _scrollController;
 
+  // panel height, Using Map to maintain proper mapping(panelNumber, panelHeight) at all the time
+  Map<int, double> _panelHeights;
+
+  List<PanelWidget> _statefulPanels;
+
+
+  final keys = new List.generate(20, (_) => new GlobalKey<_PanelWidgetState>());
+
+  // Scroll Listener
+  // Todo: Temporarily manipulating the overlayWidget in the scrollListener, add the wrapper later
+
   _scrollListener(){
     print("Scroll Offset ${_scrollController.offset}");
   }
@@ -35,6 +46,15 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
     // Scroll Controller and Listener
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
+
+    //initializing the list,
+    _panelHeights = new Map();
+
+    //convert panels
+//    _statefulPanels = convertToStatefulPanel(widget.panels);
+
+    //Call after render
+    WidgetsBinding.instance.addPostFrameCallback((_) => _getHeight());
 
 
     // TODO:: Temporary(to be changed later): Initializing overlayWidget in initState()
@@ -58,13 +78,45 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
           controller: _scrollController,
           //TODO: Provide flexibility to directly input sliverList
           slivers: <Widget>[
-            SliverList(delegate: SliverChildListDelegate(
-                widget.panels
+            SliverList(delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index){
+                  return PanelWidget(key: keys[index], rawPanel: widget.panels[index],);
+                },
+                childCount: 20
             ),)
           ],
         ),
         overLayWidget
       ],
     );
+  }
+
+  void _getHeight() {
+    final GlobalKey key0 = widget.panels[0].key;
+    final State state = key0.currentState;
+    final BuildContext context0 = key0.currentContext;
+
+    final RenderBox box = state.context.findRenderObject();
+
+    print(box.size.height);
+    print(context0.size.height);
+  }
+
+}
+
+class PanelWidget extends StatefulWidget{
+
+  PanelWidget({Key key, Widget rawPanel}) : rawPanel = rawPanel, super(key: key);
+
+  final Widget rawPanel;
+
+  @override
+  _PanelWidgetState createState() => _PanelWidgetState();
+}
+
+class _PanelWidgetState extends State<PanelWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return widget.rawPanel;
   }
 }
