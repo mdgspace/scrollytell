@@ -8,13 +8,18 @@ import 'package:flutter/material.dart';
 
 class ScrollyWidget extends StatefulWidget {
   ScrollyWidget({this.panels});
-  List<Widget> panels;
+  final List<Widget> panels;
 
   @override
-  _ScrollyWidgetState createState() => _ScrollyWidgetState();
+  _ScrollyWidgetState createState() => _ScrollyWidgetState(panels);
 }
 
 class _ScrollyWidgetState extends State<ScrollyWidget> {
+
+  _ScrollyWidgetState(panels):
+        this.keys = new List.generate(panels.length, (_) => new GlobalKey<_PanelWidgetState>());
+
+
   // User controls the overlay widget state through the callbacks
   Widget overLayWidget;
 
@@ -32,7 +37,7 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
 
   int _heightFillIndex;
 
-  final keys = new List.generate(20, (_) => new GlobalKey<_PanelWidgetState>());
+  final keys;
 
   // Scroll Listener
   // Todo: Temporarily manipulating the overlayWidget in the scrollListener, add the wrapper later
@@ -86,7 +91,7 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
                   key: keys[index],
                   rawPanel: widget.panels[index],
                 );
-              }, childCount: 20),
+              }, childCount: widget.panels.length),
             )
           ],
         ),
@@ -97,19 +102,19 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
 
   void _getHeight() {
     final List<State> states =
-    List.generate(20, (index) => keys[index].currentState);
+    List.generate(widget.panels.length, (index) => keys[index].currentState);
     final List<BuildContext> contexts =
-    List.generate(20, (index) => keys[index].currentContext);
+    List.generate(widget.panels.length, (index) => keys[index].currentContext);
 
     final List<RenderBox> boxes = List.generate(
-        20, (index) => states[index]?.context?.findRenderObject());
+        widget.panels.length, (index) => states[index]?.context?.findRenderObject());
 
     boxes.asMap().forEach(
             (index, box) => print("Box $index Height : ${box?.size?.height}"));
 
 
     setState(() {
-      _panelHeights = List.generate(20, (index) {
+      _panelHeights = List.generate(widget.panels.length, (index) {
         if (_panelHeights[index] == null) {
           return boxes[index]?.size?.height;
         } else {
