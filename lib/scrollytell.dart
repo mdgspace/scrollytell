@@ -34,6 +34,8 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
 
   // panel height, Using Map to maintain proper mapping(panelNumber, panelHeight) at all the time
   Map<int, double> _panelHeights;
+  List<double> _panelPrefixHeights;
+
 
   int _heightFillIndex;
 
@@ -44,7 +46,7 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
 
   _scrollListener() {
 //        print("Scroll Offset ${_scrollController.offset}");
-    //TODO: change to variable height implementation using panelPrefixHeights
+    //TODO: (IMP) change to variable height implementation using panelPrefixHeights
     if (_heightFillIndex != -1 &&
         _scrollController.offset >= _panelHeights[0] * (_heightFillIndex - 1)) {
       _getHeight();
@@ -131,6 +133,10 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
       _heightFillIndex = nullIndex;
     });
 
+    if(nullIndex == -1){
+      calculatePanelPrefixHeight();
+    }
+
     print(_panelHeights);
     print(_heightFillIndex);
 
@@ -145,6 +151,22 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
     }
 
     return -1;
+  }
+
+  void calculatePanelPrefixHeight() {
+    List<double> pph = List.generate(widget.panels.length, (_) => 0.0);
+
+
+    for(var i = 1; i < _panelHeights.length; i++){
+      assert (_panelHeights[i] != null);
+      pph[i] = pph[i-1] + _panelHeights[i];
+    }
+
+    setState(() {
+      _panelPrefixHeights = pph;
+    });
+
+    print("Panel Prefix height: $_panelPrefixHeights");
   }
 }
 
