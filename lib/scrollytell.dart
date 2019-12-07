@@ -75,6 +75,8 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
 
   double _offsetBias;
 
+  bool _stickyVisibility;
+
   void _scrollListener() {
     if (_heightFillIndex != -1) {
       double filled = 0.0;
@@ -128,6 +130,35 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
       widget.panelEndCallback(_activePanelIndex,
           (newOverlay) => {this.setState(() => _overLayWidget = newOverlay)});
     }
+
+    if (_activePanelIndex == 4 &&
+        previousProgress < 0.5 &&
+        _progress >= 0.5 &&
+        _progress < .51) {
+      print("removed");
+      setState(() {
+        _overLayWidget = widget.panels[3];
+      });
+
+      setState(() {
+        _overLayWidget = widget.panels[3];
+        _stickyVisibility = false;
+      });
+    }
+    if (_activePanelIndex == 4 &&
+        previousProgress > 0.5 &&
+        _progress >= 0.49 &&
+        _progress < .5) {
+      print("removed");
+      setState(() {
+        _overLayWidget = Container();
+      });
+
+      setState(() {
+        _overLayWidget = widget.panels[3];
+        _stickyVisibility = true;
+      });
+    }
   }
 
   @override
@@ -152,6 +183,10 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
       _overLayWidget = widget.initialOverlayWidget;
     }
 
+
+    _stickyVisibility = true;
+
+
     super.initState();
   }
 
@@ -169,10 +204,19 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
             SliverList(
               delegate:
                   SliverChildBuilderDelegate((BuildContext context, int index) {
-                return PanelWidget(
-                  key: _keys[index],
-                  rawPanel: widget.panels[index],
-                );
+                if (index == 3) {
+                  return PanelWidget(
+                    key: _keys[index],
+                    rawPanel: widget.panels[index],
+                    visible: _stickyVisibility,
+                  );
+                } else {
+                  return PanelWidget(
+                    key: _keys[index],
+                    rawPanel: widget.panels[index],
+                    visible: true,
+                  );
+                }
               }, childCount: widget.panels.length),
             ),
             widget.lastPanelForceComplete
@@ -272,11 +316,13 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
 }
 
 class PanelWidget extends StatefulWidget {
-  PanelWidget({Key key, Widget rawPanel})
+  PanelWidget({Key key, Widget rawPanel, bool visible})
       : rawPanel = rawPanel,
+        visible = visible,
         super(key: key);
 
   final Widget rawPanel;
+  final bool visible;
 
   @override
   _PanelWidgetState createState() => _PanelWidgetState();
@@ -285,6 +331,6 @@ class PanelWidget extends StatefulWidget {
 class _PanelWidgetState extends State<PanelWidget> {
   @override
   Widget build(BuildContext context) {
-    return widget.rawPanel;
+    return widget.visible ? widget.rawPanel : Container();
   }
 }
