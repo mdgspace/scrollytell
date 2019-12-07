@@ -43,6 +43,8 @@ Widget overlayWidget;
 #### Declare a ScrollyWidget
 ```dart
 Widget _scrollyWidget = ScrollyWidget(
+		   showDebugConsole: true,
+  	           guidelinePosition: GuidelinePosition.center,
                    panels: panelList,
                    panelStartCallback: (activePanelNumber, func){},
                    panelEndCallback: (endingPanelNumber, func){},
