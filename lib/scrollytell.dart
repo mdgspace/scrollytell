@@ -43,7 +43,7 @@ class ScrollyWidget extends StatefulWidget {
   final GuidelinePosition guidelinePosition;
 
   final showDebugConsole;
-  
+
   final int stickyChartIndex;
 
   @override
@@ -140,7 +140,6 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
         previousProgress < 0.5 &&
         _progress >= 0.5 &&
         _progress < .7) {
-
       setState(() {
         _overLayWidget = Align(
           alignment: Alignment.center,
@@ -197,6 +196,9 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
     return Stack(
       key: _stackKey,
       children: <Widget>[
+        Positioned(
+          child: _overLayWidget,
+        ),
         CustomScrollView(
           controller: _scrollController,
           //TODO: (Later) Provide flexibility to directly input sliverList
@@ -206,16 +208,22 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
                   SliverChildBuilderDelegate((BuildContext context, int index) {
                 if (widget.stickyChartIndex != null &&
                     index == widget.stickyChartIndex - 1) {
-                  return PanelWidget(
-                    key: _keys[index],
-                    rawPanel: widget.panels[index],
-                    visible: _stickyVisibility,
+                  return Opacity(
+                    opacity: widget.opacity,
+                    child: PanelWidget(
+                      key: _keys[index],
+                      rawPanel: widget.panels[index],
+                      visible: _stickyVisibility,
+                    ),
                   );
                 } else {
-                  return PanelWidget(
-                    key: _keys[index],
-                    rawPanel: widget.panels[index],
-                    visible: true,
+                  return Opacity(
+                    opacity: widget.opacity,
+                    child: PanelWidget(
+                      key: _keys[index],
+                      rawPanel: widget.panels[index],
+                      visible: true,
+                    ),
                   );
                 }
               }, childCount: widget.panels.length),
@@ -226,15 +234,6 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
                     child: Container(),
                   )
           ],
-        ),
-        Positioned(
-          child: Opacity(
-            opacity: widget.opacity,
-            child: IgnorePointer(
-              child: _overLayWidget,
-              ignoring: true,
-            ),
-          ),
         ),
         Visibility(
           visible: widget.showDebugConsole,
