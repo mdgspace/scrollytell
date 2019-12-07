@@ -20,6 +20,7 @@ class ScrollyWidget extends StatefulWidget {
     this.initialOverlayWidget,
     this.guidelinePosition = GuidelinePosition.top,
     this.showDebugConsole = false,
+    this.stickyChartIndex,
   });
 
   //callbacks
@@ -44,6 +45,8 @@ class ScrollyWidget extends StatefulWidget {
   final GuidelinePosition guidelinePosition;
 
   final showDebugConsole;
+  
+  final int stickyChartIndex;
 
   @override
   _ScrollyWidgetState createState() => _ScrollyWidgetState(panels);
@@ -77,6 +80,8 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
   final _stackKey = GlobalKey();
 
   double _offsetBias;
+
+  bool _stickyVisibility;
 
   void _scrollListener() {
     if (_heightFillIndex != -1) {
@@ -113,7 +118,7 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
                   (_panelPrefixHeights[i] - _panelPrefixHeights[i - 1]))
               .toStringAsFixed(4));
     });
-    print('panel index: $_activePanelIndex ,progress : $_progress ');
+//    print('panel index: $_activePanelIndex ,progress : $_progress ');
 
     if (previousPanelIndex != _activePanelIndex) {
       widget.panelStartCallback(_activePanelIndex,
@@ -129,6 +134,33 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
         _progress >= 0.97 &&
         _progress < 1.0) {
       widget.panelEndCallback(_activePanelIndex,
+          (newOverlay) => {this.setState(() => _overLayWidget = newOverlay)});
+    }
+
+    if (widget.stickyChartIndex != null &&
+        _activePanelIndex == 4 &&
+        previousProgress < 0.5 &&
+        _progress >= 0.5 &&
+        _progress < .7) {
+
+      setState(() {
+        _overLayWidget = Align(
+          alignment: Alignment.center,
+          child: widget.panels[widget.stickyChartIndex - 1],
+        );
+        _stickyVisibility = false;
+      });
+    }
+    if (widget.stickyChartIndex != null &&
+        _activePanelIndex == 4 &&
+        previousProgress > 0.5 &&
+        _progress >= 0.3 &&
+        _progress < .5) {
+      setState(() {
+        _stickyVisibility = true;
+        _overLayWidget = Container();
+      });
+      widget.panelProgressCallback(_activePanelIndex, _progress,
           (newOverlay) => {this.setState(() => _overLayWidget = newOverlay)});
     }
   }
@@ -155,6 +187,8 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
       _overLayWidget = widget.initialOverlayWidget;
     }
 
+    _stickyVisibility = true;
+
     super.initState();
   }
 
@@ -172,10 +206,20 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
             SliverList(
               delegate:
                   SliverChildBuilderDelegate((BuildContext context, int index) {
-                return PanelWidget(
-                  key: _keys[index],
-                  rawPanel: widget.panels[index],
-                );
+                if (widget.stickyChartIndex != null &&
+                    index == widget.stickyChartIndex - 1) {
+                  return PanelWidget(
+                    key: _keys[index],
+                    rawPanel: widget.panels[index],
+                    visible: _stickyVisibility,
+                  );
+                } else {
+                  return PanelWidget(
+                    key: _keys[index],
+                    rawPanel: widget.panels[index],
+                    visible: true,
+                  );
+                }
               }, childCount: widget.panels.length),
             ),
             widget.lastPanelForceComplete
@@ -185,11 +229,13 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
                   )
           ],
         ),
-        Opacity(
-          opacity: widget.opacity,
-          child: IgnorePointer(
-            child: _overLayWidget,
-            ignoring: true,
+        Positioned(
+          child: Opacity(
+            opacity: widget.opacity,
+            child: IgnorePointer(
+              child: _overLayWidget,
+              ignoring: true,
+            ),
           ),
         ),
         Visibility(
@@ -272,7 +318,6 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
 
   _getStackHeight() {
     final context = _stackKey.currentContext;
-    print("STACK HEIGHT: ${context.size.height}");
 
     double bias;
 
@@ -310,11 +355,13 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
 }
 
 class PanelWidget extends StatefulWidget {
-  PanelWidget({Key key, Widget rawPanel})
+  PanelWidget({Key key, Widget rawPanel, bool visible})
       : rawPanel = rawPanel,
+        visible = visible,
         super(key: key);
 
   final Widget rawPanel;
+  final bool visible;
 
   @override
   _PanelWidgetState createState() => _PanelWidgetState();
@@ -323,6 +370,6 @@ class PanelWidget extends StatefulWidget {
 class _PanelWidgetState extends State<PanelWidget> {
   @override
   Widget build(BuildContext context) {
-    return widget.rawPanel;
+    return widget.visible ? widget.rawPanel : Container();
   }
 }

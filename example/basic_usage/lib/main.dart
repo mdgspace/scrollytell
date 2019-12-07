@@ -18,6 +18,7 @@ List<Widget> panelList = [];
 List<Widget> generatePanelList() {
   List<Widget> list = [];
   for (int i = 0; i < 20; i++) {
+
     list.add(Center(
       child: Column(
         children: <Widget>[
