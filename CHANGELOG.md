@@ -1,6 +1,6 @@
 ## [1.0.2] - Dec 8,2019
 
-* Minor changes in description and readme.
+* Added terminology and usage tips in readme
 
 ## [1.0.1] - Dec 7,2019
 
