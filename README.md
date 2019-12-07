@@ -102,7 +102,10 @@ For more info, refer to the `basic_usage` app in the example.
     <td align="center">
       <img src="https://raw.githubusercontent.com/mdg-iitr/scrollytell/master/screenshots/BasicUsage.gif" width="300px">
     </td>
-  </tr>
+    <td align="center">
+      <img src="https://raw.githubusercontent.com/mdg-iitr/scrollytell/master/screenshots/AnimalFarm.gif" width="300px">
+    </td>
+   </tr>
 </table>
 
 
