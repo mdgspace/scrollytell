@@ -66,72 +66,72 @@ class _MyHomePageState extends State<MyHomePage> {
         switch (activePanelNumber) {
           case 1:
             {
-              color = Colors.purple;
+              color = Colors.blue;
               break;
             }
           case 2:
             {
-              color = Colors.green;
+              color = Colors.orange;
               break;
             }
           case 3:
             {
-              color = Colors.red;
+              color = Colors.blue;
               break;
             }
           case 4:
             {
-              color = Colors.pink;
+              color = Colors.orange;
               break;
             }
           case 5:
             {
-              color = Colors.purple;
+              color = Colors.blue;
               break;
             }
           case 6:
             {
-              color = Colors.limeAccent;
+              color = Colors.orange;
               break;
             }
           case 7:
             {
-              color = Colors.green;
+              color = Colors.blue;
               break;
             }
           case 8:
             {
-              color = Colors.purple;
+              color = Colors.orange;
               break;
             }
           case 9:
             {
-              color = Colors.green;
+              color = Colors.blue;
               break;
             }
           case 10:
             {
-              color = Colors.red;
+              color = Colors.orange;
               break;
             }
           case 11:
             {
-              color = Colors.pink;
+              color = Colors.blue;
               break;
             }
           case 12:
             {
-              color = Colors.purple;
+              color = Colors.orange;
               break;
             }
           case 13:
             {
-              color = Colors.limeAccent;
+              color = Colors.blue;
               break;
             }
           case 14:
             {
-              color = Colors.green;
+              color = Colors.orange;
               break;
             }
         }
