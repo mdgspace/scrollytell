@@ -118,5 +118,6 @@ If you want to contribute to improve this library, please read our [guidelines](
 ## ⭐️ License
 
 MIT License
+[view license](https://github.com/mdg-iitr/scrollytell/blob/master/LICENSE)
 
 This project draws inspiration from [@google](https://github.com/google)'s [Scrollytell](https://github.com/google/scrollytell).
