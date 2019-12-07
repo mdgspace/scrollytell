@@ -24,7 +24,7 @@ import 'package:scrollytell/scrollytell.dart';
 | panelStartCallback (required)     | Function(num, Function)      |  | Called on start of new panel |
 | panelEndCallback (required) | Function(num, Function)        | |Called on end of existing panel |
 | panelProgressCallback (required) | Function(num, double, Function) |  |Called every frame |
-| opacity | double | 1 | Set opacity of overlayWidget |
+| opacity | double | 1 | Set opacity of the panels |
 | lastPanelForceComplete | bool | false | Set true if the last panel hits bottom of the screen and can't be scrolled through |
 | initialOverlayWidget | Widget | none | Overlay widget before start of scrolling |
 | guidelinePosition | GuidelinePosition | GuidelinePosition.top | Set position of guideline |
