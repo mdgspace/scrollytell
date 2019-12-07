@@ -24,7 +24,7 @@ List<Widget> generatePanelList() {
           Container(
             height: (100 * ((i + 1) % 9) + 100).toDouble(),
             child: Center(child: Text('Panel ${i + 1}')),
-            color: Colors.lightBlue[100 * (i % 8) + 100],
+            color: (i % 2 == 0) ? Colors.blue : Colors.orange,
           ),
         ],
       ),
@@ -51,6 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
     panelList = generatePanelList();
 
     Widget _scrollyWidget = ScrollyWidget(
+      showDebugConsole: true,
       guidelinePosition: GuidelinePosition.center,
       opacity: 0.5,
       panels: panelList,
@@ -168,8 +169,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         children: <Widget>[
           Container(
-            child: Text(
-                'active panel index : $_activePanelNumber, progress : $_progress'),
+            child: Text('Example for understanding basic usage'),
           ),
           Expanded(
             child: _scrollyWidget,
