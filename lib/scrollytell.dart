@@ -134,7 +134,7 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
     if (_activePanelIndex == 4 &&
         previousProgress < 0.5 &&
         _progress >= 0.5 &&
-        _progress < .51) {
+        _progress < .6) {
       print("removed");
       setState(() {
         _overLayWidget = widget.panels[3];
@@ -147,17 +147,15 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
     }
     if (_activePanelIndex == 4 &&
         previousProgress > 0.5 &&
-        _progress >= 0.49 &&
+        _progress >= 0.4 &&
         _progress < .5) {
       print("removed");
       setState(() {
         _overLayWidget = Container();
-      });
-
-      setState(() {
-        _overLayWidget = widget.panels[3];
         _stickyVisibility = true;
       });
+
+
     }
   }
 
@@ -226,11 +224,16 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
                   )
           ],
         ),
-        Opacity(
-          opacity: widget.opacity,
-          child: IgnorePointer(
-            child: _overLayWidget,
-            ignoring: true,
+        Positioned(
+          child: Align(
+            alignment: Alignment.center,
+            child: Opacity(
+              opacity: widget.opacity,
+              child: IgnorePointer(
+                child: _overLayWidget,
+                ignoring: true,
+              ),
+            ),
           ),
         ),
       ],
