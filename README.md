@@ -135,12 +135,15 @@ and not manipulate the overlayWidget when activePanelIndex is corresponding inde
 <table>
   <tr>
     <td align="center">
-      <img src="https://raw.githubusercontent.com/mdg-iitr/scrollytell/master/screenshots/BasicUsage.gif" width="300px">
+      <img src="https://raw.githubusercontent.com/mdg-iitr/scrollytell/master/screenshots/BasicUsage.gif" width="250px">
+    </td>
+    <br/>
+    <td align="center">
+      <img src="https://raw.githubusercontent.com/mdg-iitr/scrollytell/master/screenshots/AnimalFarm.gif" width="250px">
     </td>
     <td align="center">
-      <img src="https://raw.githubusercontent.com/mdg-iitr/scrollytell/master/screenshots/AnimalFarm.gif" width="300px">
+      <img src="https://raw.githubusercontent.com/mdg-iitr/scrollytell/master/screenshots/StoryTell.gif" width="250px">
     </td>
-   </tr>
 </table>
 
 
