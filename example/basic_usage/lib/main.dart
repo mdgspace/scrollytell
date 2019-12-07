@@ -18,18 +18,18 @@ List<Widget> panelList = [];
 List<Widget> generatePanelList() {
   List<Widget> list = [];
   for (int i = 0; i < 20; i++) {
-    if(i==3){
-      list.add(Container(
-        decoration: BoxDecoration(border: Border.all(), color: Colors.purple),
-        height: (100 * ((i + 1) % 9) + 100).toDouble(),
-        child: Center(child: Text('Panel ${i + 1}')),
-      ));
-    }
-    else{list.add(Container(
-      height: (100 * ((i + 1) % 9) + 100).toDouble(),
-      child: Center(child: Text('Panel ${i + 1}')),
-      color: Colors.lightBlue[100 * (i % 8) + 100],
-    ));}
+
+    list.add(Center(
+      child: Column(
+        children: <Widget>[
+          Container(
+            height: (100 * ((i + 1) % 9) + 100).toDouble(),
+            child: Center(child: Text('Panel ${i + 1}')),
+            color: (i % 2 == 0) ? Colors.blue : Colors.orange,
+          ),
+        ],
+      ),
+    ));
   }
   return list;
 }
@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
     panelList = generatePanelList();
 
     Widget _scrollyWidget = ScrollyWidget(
-//      stickyChartIndex: 4,
+      showDebugConsole: true,
       guidelinePosition: GuidelinePosition.center,
       opacity: 0.5,
       panels: panelList,
@@ -170,8 +170,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         children: <Widget>[
           Container(
-            child: Text(
-                'active panel index : $_activePanelNumber, progress : $_progress'),
+            child: Text('Example for understanding basic usage'),
           ),
           Expanded(
             child: _scrollyWidget,

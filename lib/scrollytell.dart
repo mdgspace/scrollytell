@@ -19,6 +19,7 @@ class ScrollyWidget extends StatefulWidget {
     this.opacity = 1,
     this.initialOverlayWidget,
     this.guidelinePosition = GuidelinePosition.top,
+    this.showDebugConsole = false,
     this.stickyChartIndex,
   });
 
@@ -43,6 +44,8 @@ class ScrollyWidget extends StatefulWidget {
   //Guideline position enum
   final GuidelinePosition guidelinePosition;
 
+  final showDebugConsole;
+  
   final int stickyChartIndex;
 
   @override
@@ -235,6 +238,29 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
             ),
           ),
         ),
+        Visibility(
+          visible: widget.showDebugConsole,
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Container(
+              color: Colors.grey,
+              width: 100,
+              child: Text(
+                  'active panel : $_activePanelIndex \nprogress : $_progress'),
+            ),
+          ),
+        ),
+        Visibility(
+          visible: widget.showDebugConsole,
+          child: Align(
+            alignment: _getAlignment(),
+            child: Divider(
+              height: 0,
+              color: Colors.black87,
+              thickness: 1.0,
+            ),
+          ),
+        )
       ],
     );
   }
@@ -313,6 +339,18 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
     setState(() {
       _offsetBias = bias;
     });
+  }
+
+  _getAlignment() {
+    Alignment alignment;
+    if (widget.guidelinePosition == GuidelinePosition.bottom) {
+      alignment = Alignment.bottomCenter;
+    } else if (widget.guidelinePosition == GuidelinePosition.center) {
+      alignment = Alignment.center;
+    } else {
+      alignment = Alignment.topCenter;
+    }
+    return alignment;
   }
 }
 
