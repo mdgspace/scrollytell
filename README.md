@@ -114,4 +114,4 @@ Pull requests are most welcome.
 
 MIT License
 
-This project draws inspiriration from [@google](https://github.com/google)'s [Scrollytell](https://github.com/google/scrollytell).
+This project draws inspiration from [@google](https://github.com/google)'s [Scrollytell](https://github.com/google/scrollytell).
