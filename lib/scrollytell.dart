@@ -8,6 +8,7 @@ import 'package:flutter/rendering.dart';
 // Using ScrollController instead of ScrollNotification - https://api.flutter.dev/flutter/widgets/ScrollNotification-class.html
 
 class ScrollyWidget extends StatefulWidget {
+
   ScrollyWidget({
     @required this.panels,
     @required this.panelStartCallback,
@@ -16,6 +17,7 @@ class ScrollyWidget extends StatefulWidget {
     this.lastPanelForceComplete = false,
     this.opacity = 1,
     this.initialOverlayWidget,
+    this.guidelineCenter = false,
   });
 
   //callbacks
@@ -35,6 +37,9 @@ class ScrollyWidget extends StatefulWidget {
 
   //Initial overlay widget
   final Widget initialOverlayWidget;
+
+  final bool guidelineCenter;
+
 
   @override
   _ScrollyWidgetState createState() => _ScrollyWidgetState(panels);
@@ -65,6 +70,10 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
 
   final _keys;
 
+  final _stackKey = GlobalKey();
+  double _stackHeight;
+  double _guideLinePosition;
+  double _offsetBias;
 
   void _scrollListener() {
     if (_heightFillIndex != -1) {
@@ -72,12 +81,13 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
       for (int i = 0; i < _heightFillIndex; i++) {
         filled += _panelHeights[i];
       }
-      if (_scrollController.offset >= filled) {
+      if (_scrollController.offset + _offsetBias >= filled) {
         _getHeight();
       }
     }
     int i = 0;
-    var currentOffset = _scrollController.offset;
+//    var currentOffset = _scrollController.offset;
+    var currentOffset = _scrollController.offset + _offsetBias;
     while (i < _panelPrefixHeights.length - 1 &&
         currentOffset >= _panelPrefixHeights[i]) {
       i++;
@@ -132,6 +142,7 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
 
     //Call after render
     WidgetsBinding.instance.addPostFrameCallback((_) => _getHeight());
+    WidgetsBinding.instance.addPostFrameCallback((_) => _getStackHeight());
 
     //initializing active panel index to 1 and progress to 0
     _activePanelIndex = 1;
@@ -148,7 +159,9 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
   Widget build(BuildContext context) {
     // The stack paints its children in order with the first child being at the bottom.
 
+
     return Stack(
+      key: _stackKey,
       children: <Widget>[
         CustomScrollView(
 
@@ -177,6 +190,9 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
             child: _overLayWidget,
             ignoring: true,
           ),
+        ),
+        Positioned.fill(
+          child: Align(alignment: Alignment.center,child: Divider(thickness: 2,)),
         )
       ],
     );
@@ -230,6 +246,15 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
     }
     setState(() {
       _panelPrefixHeights = pph;
+    });
+  }
+
+  _getStackHeight() {
+    final context = _stackKey.currentContext;
+    print("STACK HEIGHT: ${context.size.height}");
+    setState(() {
+      _offsetBias = context.size.height/2;
+
     });
   }
 }
