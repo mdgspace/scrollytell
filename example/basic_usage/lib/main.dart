@@ -44,8 +44,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  num _activePanelNumber;
-  num _progress;
 
   @override
   Widget build(BuildContext context) {
@@ -57,11 +55,6 @@ class _MyHomePageState extends State<MyHomePage> {
       opacity: 0.5,
       panels: panelList,
       panelProgressCallback: (activePanelNumber, progress, func) {
-        setState(() {
-          _activePanelNumber = activePanelNumber;
-          _progress = progress;
-        });
-
         Widget overlayWidget;
         double rad = (progress <= 0.5) ? progress * 200 : 200 - progress * 200;
 
