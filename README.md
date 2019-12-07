@@ -25,37 +25,53 @@ List<Widget> panelList = [Text('Hello Scrollytell'), Text('Hello Flutter')];
 ```dart
 Widget overlayWidget;
 ```
-#### Use ScrollyWidget as child or root
+#### Declare a ScrollyWidget
 ```dart
-ScrollyWidget(
-    height:500,
-    width: 300,
-    panels: panelList,
-    panelStartCallback: (activePanelNumber, func){},
-    panelEndCallback: (endingPanelNumber, func){},
-    panelProgressCallback: (activePanelNumber, progress, func){
+Widget _scrollyWidget = ScrollyWidget(
+                   panels: panelList,
+                   panelStartCallback: (activePanelNumber, func){},
+                   panelEndCallback: (endingPanelNumber, func){},
+                   panelProgressCallback: (activePanelNumber, progress, func){
     
-        // set properties of overlay widget using activePanelNumber and progress
+                // set properties of overlay widget using activePanelNumber and progress
         
-        double rad = (progress <= 0.5) ? progress * 200 : 200 - progress * 200;
-        overlayWidget = Center(
-            child: Container(
-                width: 200,
-                height: 200,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(rad),
-                    ),
-                color: Colors.red,
-                ),
-            ),
-        );
+                       double rad = (progress <= 0.5) ? progress * 200 : 200 - progress * 200;
+                       overlayWidget = Center(
+                           child: Container(
+                               width: 200,
+                               height: 200,
+                               decoration: BoxDecoration(
+                                   borderRadius: BorderRadius.all(
+                                       Radius.circular(rad),
+                                   ),
+                               color: Colors.red,
+                               ),
+                           ),
+                       );
         
-        // then pass it into the function
+                // then pass it into the function
         
-        func(overlayWidget)
-    },
-)
+                       func(overlayWidget)
+                   },
+               )
+```
+
+#### Now Wrap it in either Expanded, Flexible or Container
+>  option 1 : Wrap in Expanded for covering the remaining screen.
+```dart
+Expanded(child: _scrollyWidget)
+```
+> Option 2 : Wrap in Flexible
+```dart
+Flexible(child: _scrollyWidget)
+```
+> Option 3 : Wrap in container to give it desired size.
+```dart
+Container(height: 500, width: 300, child: _scrollyWidget)
+```
+#### OR Use it directly as body of Scaffold.
+```dart
+Scaffold(body: _scrollyWidget)
 ```
 
 For more info, please, refer to the `basic_usage` app in the example.
