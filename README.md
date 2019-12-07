@@ -14,7 +14,18 @@ dependencies:
 ```dart
 import 'package:scrollytell/scrollytell.dart';
 ```
+## Props
 
+| props  | type  | default value |
+| :------------ |:---------------:| :------------:|
+| panels (required)      | List Widget |       |
+| panelStartCallback (required)     | Function(num, Function)        |
+| panelEndCallback (required) | Function(num, Function)        |
+| panelProgressCallback (required) | Function(num, double, Function) |  
+| opacity | double | 1 |
+| lastPanelForceComplete | bool | false
+| initialOverlayWidget | Widget | none
+  
 ## 🎮 How To Use
 
 #### Declare a List of Widgets
