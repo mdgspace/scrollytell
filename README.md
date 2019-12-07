@@ -1,12 +1,14 @@
 # ✨ Scrollytell Flutter
 
-A flutter library for **ScrollyTelling** in your flutter app.
+
+
+A flutter package to implement **ScrollyTelling** in your flutter app. Using ScrollyTell you can have the background changing dynamically as you scroll. ScrollyTell provides a mechanism to fully control this behaviour.
 
 ## 🎖 Installing
 
 ```yaml
 dependencies:
-  scrollytell: ^1.0.0
+  scrollytell: ^1.0.1
 ```
 
 ### ⚡️ Import
