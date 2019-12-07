@@ -52,6 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
     panelList = generatePanelList();
 
     Widget _scrollyWidget = ScrollyWidget(
+//      stickyChartIndex: 4,
       guidelinePosition: GuidelinePosition.center,
       opacity: 0.5,
       panels: panelList,
@@ -61,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
           _progress = progress;
         });
 
-        /*Widget overlayWidget;
+        Widget overlayWidget;
         double rad = (progress <= 0.5) ? progress * 200 : 200 - progress * 200;
 
         Color color;
@@ -151,7 +152,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         );
 
-        func(overlayWidget);*/
+        func(overlayWidget);
       },
       panelStartCallback: (activePanelNumber, func) {
         print('panel start callback $activePanelNumber');
