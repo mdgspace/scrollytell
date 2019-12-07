@@ -197,7 +197,7 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
       key: _stackKey,
       children: <Widget>[
         Positioned(
-          child: _overLayWidget
+          child: _overLayWidget,
         ),
         CustomScrollView(
           controller: _scrollController,
