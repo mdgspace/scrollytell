@@ -1,5 +1,5 @@
 name: scrollytell
-description: Cross-platform ScrollyTell built using flutter
+description: This is a Flutter Package for creating animations that synchronize with scrolling. It uses CustomScrollView to check the scroll status and trigger scrollytelling events.This design concept can be applied in apps for Journalism, Sports, Business, Science, Medicine and many more.
 version: 1.0.0
 author: mdg-iitr<http://mdg.iitr.ac.in/>
 homepage: https://github.com/mdg-iitr/scrollytell.git

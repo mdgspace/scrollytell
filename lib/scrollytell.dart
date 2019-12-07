@@ -1,7 +1,5 @@
 library scrollytell;
 
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
