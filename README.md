@@ -6,6 +6,8 @@ A flutter library for **ScrollyTelling** in your flutter app.
 
 ```yaml
 dependencies:
+  scrollytell: ^1.0.0
+
   
 ```
 
@@ -109,6 +111,11 @@ For more info, refer to the `basic_usage` app in the example.
 If you encounter any problems feel free to open an issue. If you feel the library is
 missing a feature, please raise a issue(label:enhancement) on Github and we will look into it.
 Pull requests are most welcome.
+
+## 🤝 Guidelines for Contributors
+
+If you want to contribute to improve this library, please read our [guidelines](https://github.com/mdg-iitr/scrollytell/blob/master/CONTRIBUTING.md). Feel free to open an [issue](https://github.com/mdg-iitr/scrollytell/issues).
+
 
 ## ⭐️ License
 
