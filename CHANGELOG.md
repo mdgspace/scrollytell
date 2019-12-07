@@ -1,3 +1,3 @@
-## [0.0.1] - TODO: Add release date.
+## [0.0.1] - Dec 7,2019
 
-* TODO: Describe initial release.
+* A new Flutter Package that allow user to control overlay widget using panel index and it's progress value.

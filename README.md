@@ -100,3 +100,4 @@ For help on editing plugin code, view the [documentation](https://flutter.io/pla
 
 ## ⭐️ License
 
+MIT License
