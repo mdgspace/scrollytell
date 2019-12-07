@@ -98,7 +98,7 @@ For more info, refer to the `basic_usage` app in the example.
 <table>
   <tr>
     <td align="center">
-      <img src="https://github.com/mdg-iitr/scrollytell/blob/master/screenshots/BasicUsage.gif" width="300px">
+      <img src="https://raw.githubusercontent.com/mdg-iitr/scrollytell/master/screenshots/BasicUsage.gif" width="300px">
     </td>
   </tr>
 </table>
