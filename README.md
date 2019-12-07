@@ -7,8 +7,6 @@ A flutter library for **ScrollyTelling** in your flutter app.
 ```yaml
 dependencies:
   scrollytell: ^1.0.0
-
-  
 ```
 
 ### ⚡️ Import
