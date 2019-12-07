@@ -25,10 +25,59 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<Image> images;
+
+  @override
+  void initState() {
+    images = [];
+    images.add(Image.asset(
+      "assets/1.jpeg",
+      fit: BoxFit.cover,
+      height: double.infinity,
+      width: double.infinity,
+      alignment: Alignment.center,
+    ));
+    images.add(Image.asset(
+      "assets/2.jpeg",
+      fit: BoxFit.cover,
+      height: double.infinity,
+      width: double.infinity,
+      alignment: Alignment.center,
+    ));
+    images.add(Image.asset(
+      "assets/3.jpeg",
+      fit: BoxFit.cover,
+      height: double.infinity,
+      width: double.infinity,
+      alignment: Alignment.center,
+    ));
+    images.add(Image.asset(
+      "assets/4.jpeg",
+      fit: BoxFit.cover,
+      height: double.infinity,
+      width: double.infinity,
+      alignment: Alignment.center,
+    ));
+    images.add(Image.asset(
+      "assets/12.jpeg",
+      fit: BoxFit.cover,
+      height: double.infinity,
+      width: double.infinity,
+      alignment: Alignment.center,
+    ));
+
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    images.forEach((image) => precacheImage(image.image, context));
+  }
+
   @override
   Widget build(BuildContext context) {
     buildPanelList(context);
-
 
     return Scaffold(
         appBar: AppBar(
@@ -47,103 +96,38 @@ class _HomePageState extends State<HomePage> {
           initialOverlayWidget: Center(
             child: Opacity(
               opacity: 0.5,
-              child: Image.asset(
-                "assets/1.jpeg",
-                fit: BoxFit.cover,
-                height: double.infinity,
-                width: double.infinity,
-                alignment: Alignment.center,
-              ),
+              child: images[0]
             ),
           ),
           guidelinePosition: GuidelinePosition.center,
           panels: panelList,
           panelStartCallback: (activePanelIndex, func) {
             var overlaywidget;
+
             switch (activePanelIndex) {
               case 2:
-                overlaywidget = Center(
-                  child: Opacity(
-                    opacity: 0.5,
-                    child: Image.asset(
-                      "assets/1.jpeg",
-                      fit: BoxFit.cover,
-                      height: double.infinity,
-                      width: double.infinity,
-                      alignment: Alignment.center,
-                    ),
-                  ),
-                );
+                overlaywidget =
+                    Opacity(opacity: 0.5, child: Center(child: images[0]));
                 break;
               case 3:
-                overlaywidget = Center(
-                  child: Opacity(
-                    opacity: 0.5,
-                    child: Image.asset(
-                      "assets/2.jpeg",
-                      fit: BoxFit.cover,
-                      height: double.infinity,
-                      width: double.infinity,
-                      alignment: Alignment.center,
-                    ),
-                  ),
-                );
+                overlaywidget =
+                    Opacity(opacity: 0.5, child: Center(child: images[1]));
                 break;
               case 4:
-                overlaywidget = Center(
-                  child: Opacity(
-                    opacity: 0.5,
-                    child: Image.asset(
-                      "assets/3.jpeg",
-                      fit: BoxFit.cover,
-                      height: double.infinity,
-                      width: double.infinity,
-                      alignment: Alignment.center,
-                    ),
-                  ),
-                );
+                overlaywidget =
+                    Opacity(opacity: 0.5, child: Center(child: images[2]));
                 break;
               case 5:
-                overlaywidget = Center(
-                  child: Opacity(
-                    opacity: 0.5,
-                    child: Image.asset(
-                      "assets/4.jpeg",
-                      fit: BoxFit.cover,
-                      height: double.infinity,
-                      width: double.infinity,
-                      alignment: Alignment.center,
-                    ),
-                  ),
-                );
+                overlaywidget =
+                    Opacity(opacity: 0.5, child: Center(child: images[3]));
                 break;
               case 6:
-                overlaywidget = Center(
-                  child: Opacity(
-                    opacity: 0.5,
-                    child: Image.asset(
-                      "assets/12.jpeg",
-                      fit: BoxFit.cover,
-                      height: double.infinity,
-                      width: double.infinity,
-                      alignment: Alignment.center,
-                    ),
-                  ),
-                );
+                overlaywidget =
+                    Opacity(opacity: 0.5, child: Center(child: images[4]));
                 break;
               default:
-                overlaywidget = Center(
-                  child: Opacity(
-                    opacity: 0.5,
-                    child: Image.asset(
-                      "assets/1.jpeg",
-                      fit: BoxFit.cover,
-                      height: double.infinity,
-                      width: double.infinity,
-                      alignment: Alignment.center,
-                    ),
-                  ),
-                );
+                overlaywidget =
+                    Opacity(opacity: 0.5, child: Center(child: images[5]));
                 break;
             }
             func(overlaywidget);
