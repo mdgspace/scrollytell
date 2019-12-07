@@ -43,7 +43,7 @@ class ScrollyWidget extends StatefulWidget {
   final GuidelinePosition guidelinePosition;
 
   final showDebugConsole;
-  
+
   final int stickyChartIndex;
 
   @override
@@ -140,7 +140,6 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
         previousProgress < 0.5 &&
         _progress >= 0.5 &&
         _progress < .7) {
-
       setState(() {
         _overLayWidget = Align(
           alignment: Alignment.center,
@@ -197,6 +196,12 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
     return Stack(
       key: _stackKey,
       children: <Widget>[
+        Positioned(
+          child: Opacity(
+            opacity: widget.opacity,
+            child: _overLayWidget,
+          )
+        ),
         CustomScrollView(
           controller: _scrollController,
           //TODO: (Later) Provide flexibility to directly input sliverList
@@ -226,15 +231,6 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
                     child: Container(),
                   )
           ],
-        ),
-        Positioned(
-          child: Opacity(
-            opacity: widget.opacity,
-            child: IgnorePointer(
-              child: _overLayWidget,
-              ignoring: true,
-            ),
-          ),
         ),
         Visibility(
           visible: widget.showDebugConsole,
