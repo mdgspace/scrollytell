@@ -16,16 +16,19 @@ import 'package:scrollytell/scrollytell.dart';
 ```
 ## Props
 
-| props  | type  | default value |
-| :------------ |:---------------:| :------------:|
-| panels (required)      | List Widget |       |
-| panelStartCallback (required)     | Function(num, Function)        |
-| panelEndCallback (required) | Function(num, Function)        |
-| panelProgressCallback (required) | Function(num, double, Function) |  
-| opacity | double | 1 |
-| lastPanelForceComplete | bool | false
-| initialOverlayWidget | Widget | none
-  
+| props  | type  | default value | Description |
+| :------------ |:---------------:| :------------:| :------------:|
+| panels (required)      | List Widget |       | A list of panel widgets |
+| panelStartCallback (required)     | Function(num, Function)      |  | Called on start of new panel |
+| panelEndCallback (required) | Function(num, Function)        | |Called on end of existing panel |
+| panelProgressCallback (required) | Function(num, double, Function) |  |Called every frame |
+| opacity | double | 1 | Set opacity of overlayWidget |
+| lastPanelForceComplete | bool | false | Set true if the last panel hits bottom of the screen and can't be scrolled through |
+| initialOverlayWidget | Widget | none | Overlay widget before start of scrolling |
+| guidelinePosition | GuidelinePosition | GuidelinePosition.top | Set position of guideline |
+| stickyChartIndex | int | null | The panel of corresponding index will dock at center when scrolled past the center |
+
+
 ## 🎮 How To Use
 
 #### Declare a List of Widgets
