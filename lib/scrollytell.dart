@@ -197,10 +197,7 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
       key: _stackKey,
       children: <Widget>[
         Positioned(
-          child: Opacity(
-            opacity: widget.opacity,
-            child: _overLayWidget,
-          )
+          child: _overLayWidget
         ),
         CustomScrollView(
           controller: _scrollController,
@@ -211,16 +208,22 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
                   SliverChildBuilderDelegate((BuildContext context, int index) {
                 if (widget.stickyChartIndex != null &&
                     index == widget.stickyChartIndex - 1) {
-                  return PanelWidget(
-                    key: _keys[index],
-                    rawPanel: widget.panels[index],
-                    visible: _stickyVisibility,
+                  return Opacity(
+                    opacity: widget.opacity,
+                    child: PanelWidget(
+                      key: _keys[index],
+                      rawPanel: widget.panels[index],
+                      visible: _stickyVisibility,
+                    ),
                   );
                 } else {
-                  return PanelWidget(
-                    key: _keys[index],
-                    rawPanel: widget.panels[index],
-                    visible: true,
+                  return Opacity(
+                    opacity: widget.opacity,
+                    child: PanelWidget(
+                      key: _keys[index],
+                      rawPanel: widget.panels[index],
+                      visible: true,
+                    ),
                   );
                 }
               }, childCount: widget.panels.length),
