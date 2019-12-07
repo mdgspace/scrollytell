@@ -29,7 +29,28 @@ import 'package:scrollytell/scrollytell.dart';
 | initialOverlayWidget | Widget | none | Overlay widget before start of scrolling |
 | guidelinePosition | GuidelinePosition | GuidelinePosition.top | Set position of guideline |
 | stickyChartIndex | int | null | The panel of corresponding index will dock at center when scrolled past the center |
-| showDebugConsole | bool | false | show debug console and debug line |
+| showDebugConsole | bool | false | show debug console (activePanelIndex, progress)  and debug line (guideline) |
+
+
+## Terminology and Explanation
+
+#### Panel
+Panel is a widget. The list of panels form a scrolling sequence. In simple words, each panel is widget that remains in foreground while scrolling.
+
+#### OverlayWidget
+The overlay widget is what you want to be dynamically changed as you scroll.
+For example: In a simple story telling app, the panel will consist of a text portion of the story, while the OverlayWidget shows a corresponding graphic.
+
+#### guideline
+Guideline is an _imaginary_ reference line. When the panel's top coincide with the guideline we say panel has been 'started' or the panel is 'active' and `panelStartCallback` is called. Similarily when panel's bottom touch guideline we say panel is ended and`panelEndCallback` is called.
+You can choose the guidelinePosition to be either at ScrollyWidget's top, center, bottom.
+
+#### activePanelIndex
+An integer value corresponding to the panel that is "active"(coincides with the guideline).
+
+#### progress (0,1)
+A double value that depicts how much the panel has been scrolled past the guideline.
+For example: When the center of panel reaches guideline progress is half.
 
 
 ## 🎮 How To Use
@@ -94,6 +115,20 @@ Scaffold(body: _scrollyWidget)
 ```
 
 For more info, refer to the `basic_usage` app in the example.
+
+## Some usage tips for beginners
+
+#### Setting the overlay widget.
+* The overlayWidget will continue to be the one which was last set in the callback(s) unless you explicitly change it.
+* When you do not want to display anything at overlayWidget set it to be `Container()`
+
+#### adding a "fake panel"
+* Sometimes you may want to include want to include containers at start (maybe a heading) and want it
+to scroll with your actual panels. The best option is to add it as a panel in the `panelList` and not
+manipulate the overlayWidget when activePanelIndex is 1.
+* A similar approach can be applied when you want include containers (like large empty spaces) in between
+you actual panels (like, text portions of story). Just include the container at the appropriate position in the panelList
+and not manipulate the overlayWidget when activePanelIndex is corresponding index.
 
 ## 🚀 Showcase
 
