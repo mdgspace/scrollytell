@@ -8,7 +8,7 @@ A flutter package to implement **ScrollyTelling** in your flutter app. Using Scr
 
 ```yaml
 dependencies:
-  scrollytell: ^1.0.1
+  scrollytell: ^1.0.2
 ```
 
 ### ⚡️ Import
