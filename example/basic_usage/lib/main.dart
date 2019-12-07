@@ -24,7 +24,7 @@ List<Widget> generatePanelList() {
           Container(
             height: (100 * ((i + 1) % 9) + 100).toDouble(),
             child: Center(child: Text('Panel ${i + 1}')),
-            color: Colors.lightBlue[100 * (i % 8) + 100],
+            color: (i%2 == 0) ? Colors.blue : Colors.orange,
           ),
         ],
       ),
@@ -66,72 +66,72 @@ class _MyHomePageState extends State<MyHomePage> {
         switch (activePanelNumber) {
           case 1:
             {
-              color = Colors.blue;
+              color = Colors.purple;
               break;
             }
           case 2:
             {
-              color = Colors.orange;
+              color = Colors.green;
               break;
             }
           case 3:
             {
-              color = Colors.blue;
+              color = Colors.red;
               break;
             }
           case 4:
             {
-              color = Colors.orange;
+              color = Colors.pink;
               break;
             }
           case 5:
             {
-              color = Colors.blue;
+              color = Colors.purple;
               break;
             }
           case 6:
             {
-              color = Colors.orange;
+              color = Colors.limeAccent;
               break;
             }
           case 7:
             {
-              color = Colors.blue;
+              color = Colors.green;
               break;
             }
           case 8:
             {
-              color = Colors.orange;
+              color = Colors.purple;
               break;
             }
           case 9:
             {
-              color = Colors.blue;
+              color = Colors.green;
               break;
             }
           case 10:
             {
-              color = Colors.orange;
+              color = Colors.red;
               break;
             }
           case 11:
             {
-              color = Colors.blue;
+              color = Colors.pink;
               break;
             }
           case 12:
             {
-              color = Colors.orange;
+              color = Colors.purple;
               break;
             }
           case 13:
             {
-              color = Colors.blue;
+              color = Colors.limeAccent;
               break;
             }
           case 14:
             {
-              color = Colors.orange;
+              color = Colors.green;
               break;
             }
         }
