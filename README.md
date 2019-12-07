@@ -27,6 +27,7 @@ import 'package:scrollytell/scrollytell.dart';
 | initialOverlayWidget | Widget | none | Overlay widget before start of scrolling |
 | guidelinePosition | GuidelinePosition | GuidelinePosition.top | Set position of guideline |
 | stickyChartIndex | int | null | The panel of corresponding index will dock at center when scrolled past the center |
+| showDebugConsole | bool | false | show debug console and debug line |
 
 
 ## 🎮 How To Use
