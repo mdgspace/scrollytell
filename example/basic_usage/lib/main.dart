@@ -51,6 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
     panelList = generatePanelList();
 
     Widget _scrollyWidget = ScrollyWidget(
+      guidelinePosition: GuidelinePosition.center,
       opacity: 0.5,
       panels: panelList,
       panelProgressCallback: (activePanelNumber, progress, func) {

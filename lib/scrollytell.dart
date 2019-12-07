@@ -7,8 +7,9 @@ import 'package:flutter/rendering.dart';
 
 // Using ScrollController instead of ScrollNotification - https://api.flutter.dev/flutter/widgets/ScrollNotification-class.html
 
-class ScrollyWidget extends StatefulWidget {
+enum GuidelinePosition { top, center, bottom }
 
+class ScrollyWidget extends StatefulWidget {
   ScrollyWidget({
     @required this.panels,
     @required this.panelStartCallback,
@@ -17,7 +18,7 @@ class ScrollyWidget extends StatefulWidget {
     this.lastPanelForceComplete = false,
     this.opacity = 1,
     this.initialOverlayWidget,
-    this.guidelineCenter = false,
+    this.guidelinePosition = GuidelinePosition.top,
   });
 
   //callbacks
@@ -38,8 +39,8 @@ class ScrollyWidget extends StatefulWidget {
   //Initial overlay widget
   final Widget initialOverlayWidget;
 
-  final bool guidelineCenter;
-
+  //Guideline position enum
+  final GuidelinePosition guidelinePosition;
 
   @override
   _ScrollyWidgetState createState() => _ScrollyWidgetState(panels);
@@ -71,8 +72,7 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
   final _keys;
 
   final _stackKey = GlobalKey();
-  double _stackHeight;
-  double _guideLinePosition;
+
   double _offsetBias;
 
   void _scrollListener() {
@@ -121,7 +121,6 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
     widget.panelProgressCallback(_activePanelIndex, _progress,
         (newOverlay) => {this.setState(() => _overLayWidget = newOverlay)});
 
-
     if (previousPanelIndex == _activePanelIndex &&
         previousProgress < 0.97 &&
         _progress >= 0.97 &&
@@ -147,6 +146,7 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
     //initializing active panel index to 1 and progress to 0
     _activePanelIndex = 1;
     _progress = 0.0;
+    _offsetBias = 0;
 
     if (widget.initialOverlayWidget != null) {
       _overLayWidget = widget.initialOverlayWidget;
@@ -159,18 +159,16 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
   Widget build(BuildContext context) {
     // The stack paints its children in order with the first child being at the bottom.
 
-
     return Stack(
       key: _stackKey,
       children: <Widget>[
         CustomScrollView(
-
           controller: _scrollController,
           //TODO: (Later) Provide flexibility to directly input sliverList
           slivers: <Widget>[
             SliverList(
-              delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
+              delegate:
+                  SliverChildBuilderDelegate((BuildContext context, int index) {
                 return PanelWidget(
                   key: _keys[index],
                   rawPanel: widget.panels[index],
@@ -191,9 +189,6 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
             ignoring: true,
           ),
         ),
-        Positioned.fill(
-          child: Align(alignment: Alignment.center,child: Divider(thickness: 2,)),
-        )
       ],
     );
   }
@@ -252,9 +247,26 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
   _getStackHeight() {
     final context = _stackKey.currentContext;
     print("STACK HEIGHT: ${context.size.height}");
-    setState(() {
-      _offsetBias = context.size.height/2;
 
+    double bias;
+
+    switch (widget.guidelinePosition) {
+      case GuidelinePosition.top:
+        bias = 0;
+        break;
+      case GuidelinePosition.center:
+        bias = context.size.height / 2;
+        break;
+      case GuidelinePosition.bottom:
+        bias = context.size.height;
+        break;
+      default:
+        bias = 0;
+        break;
+    }
+
+    setState(() {
+      _offsetBias = bias;
     });
   }
 }
