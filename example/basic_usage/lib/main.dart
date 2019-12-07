@@ -18,17 +18,18 @@ List<Widget> panelList = [];
 List<Widget> generatePanelList() {
   List<Widget> list = [];
   for (int i = 0; i < 20; i++) {
-    list.add(Center(
-      child: Column(
-        children: <Widget>[
-          Container(
-            height: (100 * ((i + 1) % 9) + 100).toDouble(),
-            child: Center(child: Text('Panel ${i + 1}')),
-            color: Colors.lightBlue[100 * (i % 8) + 100],
-          ),
-        ],
-      ),
-    ));
+    if(i==3){
+      list.add(Container(
+        decoration: BoxDecoration(border: Border.all(), color: Colors.purple),
+        height: (100 * ((i + 1) % 9) + 100).toDouble(),
+        child: Center(child: Text('Panel ${i + 1}')),
+      ));
+    }
+    else{list.add(Container(
+      height: (100 * ((i + 1) % 9) + 100).toDouble(),
+      child: Center(child: Text('Panel ${i + 1}')),
+      color: Colors.lightBlue[100 * (i % 8) + 100],
+    ));}
   }
   return list;
 }
