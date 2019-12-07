@@ -1,7 +1,6 @@
-# ✨ Flutter  Scrollytell
+# ✨ Scrollytell Flutter
 
-
-A collection of loading indicators animated with flutter. Inspired by [@google](https://github.com/google)'s [Scrollytell](https://github.com/google/scrollytell).
+A flutter library for **ScrollyTelling** in your flutter app.
 
 ## 🎖 Installing
 
@@ -17,6 +16,7 @@ import 'package:scrollytell/scrollytell.dart';
 ```
 
 ## 🎮 How To Use
+
 #### Declare a List of Widgets
 ```dart
 List<Widget> panelList = [Text('Hello Scrollytell'), Text('Hello Flutter')];
@@ -57,7 +57,7 @@ Widget _scrollyWidget = ScrollyWidget(
 ```
 
 #### Now Wrap it in either Expanded, Flexible or Container
->  option 1 : Wrap in Expanded for covering the remaining screen.
+> Option 1 : Wrap in Expanded for covering the remaining screen.
 ```dart
 Expanded(child: _scrollyWidget)
 ```
@@ -74,7 +74,7 @@ Container(height: 500, width: 300, child: _scrollyWidget)
 Scaffold(body: _scrollyWidget)
 ```
 
-For more info, please, refer to the `basic_usage` app in the example.
+For more info, refer to the `basic_usage` app in the example.
 
 ## 🚀 Showcase
 
@@ -90,14 +90,11 @@ For more info, please, refer to the `basic_usage` app in the example.
 ## 🐛 Bugs/Requests
 
 If you encounter any problems feel free to open an issue. If you feel the library is
-missing a feature, please raise a ticket on Github and I'll look into it.
-Pull request are also welcome.
-
-### ❗️ Note
-
-For help getting started with Flutter, view our online [documentation](https://flutter.io/).
-For help on editing plugin code, view the [documentation](https://flutter.io/platform-plugins/#edit-code).
+missing a feature, please raise a issue(label:enhancement) on Github and we will look into it.
+Pull requests are most welcome.
 
 ## ⭐️ License
 
 MIT License
+
+This project draws inspiriration from [@google](https://github.com/google)'s [Scrollytell](https://github.com/google/scrollytell).
