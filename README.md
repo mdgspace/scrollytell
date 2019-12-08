@@ -1,6 +1,7 @@
 # ✨ Scrollytell Flutter
 [![By-MDG](https://img.shields.io/badge/By-MDG-orange.svg?style=flat-square)](http://mdg.iitr.ac.in)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+[![platform](https://img.shields.io/badge/Platform-Android-yellow.svg?style=flat-square)](https://flutter.dev)
 
 
 
