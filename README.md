@@ -137,8 +137,15 @@ and not manipulate the overlayWidget when activePanelIndex is corresponding inde
     <td align="center">
       <img src="https://raw.githubusercontent.com/mdg-iitr/scrollytell/master/screenshots/BasicUsage.gif" width="300px">
     </td>
+    <br/>
     <td align="center">
       <img src="https://raw.githubusercontent.com/mdg-iitr/scrollytell/master/screenshots/AnimalFarm.gif" width="300px">
+    </td>
+   </tr>
+   <br/>
+   <tr>
+     <td align="center">
+      <img src="https://raw.githubusercontent.com/mdg-iitr/scrollytell/master/screenshots/StoryTell.gif" width="300px">
     </td>
    </tr>
 </table>
