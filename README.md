@@ -1,4 +1,4 @@
-<div align="center"><img src="https://raw.githubusercontent.com/mdg-iitr/scrollytell/license/screenshots/scrollytell.png"/></div>
+<div align="center"><img src="https://raw.githubusercontent.com/mdg-iitr/scrollytell/master/screenshots/scrollytell.png"/></div>
 <br/>
 
 # ✨ Scrollytell Flutter
