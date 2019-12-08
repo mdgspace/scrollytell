@@ -1,3 +1,6 @@
+<div align="center"><img src="/screenshots/scrollytell.gif"/></div>
+<br/>
+
 # ✨ Scrollytell Flutter
 [![platform](https://img.shields.io/badge/Platform-Flutter-orange.svg?style=flat-square)](https://flutter.dev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
