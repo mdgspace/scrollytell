@@ -10,16 +10,21 @@ enum GuidelinePosition { top, center, bottom }
 class ScrollyWidget extends StatefulWidget {
   ScrollyWidget({
     @required this.panels,
-    @required this.panelStartCallback,
-    @required this.panelEndCallback,
-    @required this.panelProgressCallback,
+    this.panelStartCallback,
+    this.panelEndCallback,
+    this.panelProgressCallback,
     this.lastPanelForceComplete = false,
     this.opacity = 1,
     this.initialOverlayWidget,
     this.guidelinePosition = GuidelinePosition.top,
     this.showDebugConsole = false,
     this.stickyChartIndex,
-  });
+  })  : assert(panels != null, "The list of panels cannot be null."),
+        assert(
+            panelStartCallback != null ||
+                panelEndCallback != null ||
+                panelProgressCallback != null,
+            "At least one of the panelStartCallback, panelProgressCallback, panelEndCallback must be non-null.");
 
   //callbacks
 
@@ -118,16 +123,20 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
     });
 //    print('panel index: $_activePanelIndex ,progress : $_progress ');
 
-    if (previousPanelIndex != _activePanelIndex) {
+    if (previousPanelIndex != _activePanelIndex &&
+        widget.panelStartCallback != null) {
       widget.panelStartCallback(_activePanelIndex,
           (newOverlay) => {this.setState(() => _overLayWidget = newOverlay)});
     }
 
     // Dart do not have tuple or pair class so returning list of two num element here
-    widget.panelProgressCallback(_activePanelIndex, _progress,
-        (newOverlay) => {this.setState(() => _overLayWidget = newOverlay)});
+    if (widget.panelProgressCallback != null) {
+      widget.panelProgressCallback(_activePanelIndex, _progress,
+          (newOverlay) => {this.setState(() => _overLayWidget = newOverlay)});
+    }
 
     if (previousPanelIndex == _activePanelIndex &&
+        widget.panelEndCallback != null &&
         previousProgress < 0.97 &&
         _progress >= 0.97 &&
         _progress < 1.0) {
@@ -157,8 +166,10 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
         _stickyVisibility = true;
         _overLayWidget = Container();
       });
-      widget.panelProgressCallback(_activePanelIndex, _progress,
-          (newOverlay) => {this.setState(() => _overLayWidget = newOverlay)});
+      if (widget.panelProgressCallback != null) {
+        widget.panelProgressCallback(_activePanelIndex, _progress,
+            (newOverlay) => {this.setState(() => _overLayWidget = newOverlay)});
+      }
     }
   }
 
@@ -182,7 +193,7 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
 
     if (widget.initialOverlayWidget != null) {
       _overLayWidget = widget.initialOverlayWidget;
-    }else{
+    } else {
       _overLayWidget = Container();
     }
 
