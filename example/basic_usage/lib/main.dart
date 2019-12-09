@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scrollytell/scrollytell.dart';
 
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -52,7 +51,6 @@ class _MyHomePageState extends State<MyHomePage> {
     double rad;
 
     Widget _scrollyWidget = ScrollyWidget(
-
       showDebugConsole: true,
       guidelinePosition: GuidelinePosition.center,
       opacity: 0.5,
@@ -150,6 +148,9 @@ class _MyHomePageState extends State<MyHomePage> {
       },
       panelStartCallback: (activePanelNumber, func) {
         print('panel start callback $activePanelNumber');
+      },
+      panelEndCallback: (endingPanelNumber, func) {
+        print('panel end callback $endingPanelNumber');
       },
       lastPanelForceComplete: true,
     );

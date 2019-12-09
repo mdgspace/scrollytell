@@ -15,7 +15,7 @@ A flutter package to implement **ScrollyTelling** in your flutter app. Using Scr
 
 ```yaml
 dependencies:
-  scrollytell: ^1.0.3
+  scrollytell: ^1.0.4
 ```
 
 ### ⚡️ Import
@@ -28,9 +28,9 @@ import 'package:scrollytell/scrollytell.dart';
 | props  | type  | default value | Description |
 | :------------ |:---------------:| :------------:| :------------:|
 | panels (required)      | List Widget |       | A list of panel widgets |
-| panelStartCallback (required)     | Function(num, Function)      |  | Called on start of new panel |
-| panelEndCallback (required) | Function(num, Function)        | |Called on end of existing panel |
-| panelProgressCallback (required) | Function(num, double, Function) |  |Called every frame |
+| panelStartCallback | Function(num, Function)      |  | Called on start of new panel |
+| panelEndCallback| Function(num, Function)        | |Called on end of existing panel |
+| panelProgressCallback | Function(num, double, Function) |  |Called every frame |
 | opacity | double | 1 | Set opacity of the panels |
 | lastPanelForceComplete | bool | false | Set true if the last panel hits bottom of the screen and can't be scrolled through |
 | initialOverlayWidget | Widget | none | Overlay widget before start of scrolling |
@@ -38,6 +38,7 @@ import 'package:scrollytell/scrollytell.dart';
 | stickyChartIndex | int | null | The panel of corresponding index will dock at center when scrolled past the center |
 | showDebugConsole | bool | false | show debug console (activePanelIndex, progress)  and debug line (guideline) |
 
+**At least one of the panelStartCallback, panelProgressCallback, panelEndCallback must be non-null.**
 
 ## Terminology and Explanation
 

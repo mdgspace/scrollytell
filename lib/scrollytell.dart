@@ -35,7 +35,7 @@ class ScrollyWidget extends StatefulWidget {
 
   /// Called When Panel is about to end w.r.t. guideline.
   ///
-  /// panelEndCallback: (activePanelNumber, func){}
+  /// panelEndCallback: (endingPanelNumber, func){}
   ///
   /// At least one of the panelStartCallback, panelProgressCallback, panelEndCallback must be non-null.
   final Function(num, Function) panelEndCallback;

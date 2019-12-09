@@ -2,7 +2,7 @@ name: scrollytell
 description: A flutter package to implement ScrollyTelling in your flutter app. Using ScrollyTell you can have the background changing dynamically as you scroll.
 
 
-version: 1.0.3
+version: 1.0.4
 author: mdg-iitr<http://mdg.iitr.ac.in/>
 homepage: https://github.com/mdg-iitr/scrollytell.git
 
