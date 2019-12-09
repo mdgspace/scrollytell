@@ -26,55 +26,29 @@ class ScrollyWidget extends StatefulWidget {
                 panelProgressCallback != null,
             "At least one of the panelStartCallback, panelProgressCallback, panelEndCallback must be non-null.");
 
-  /// Called When Panel top coincides with guideline.
-  ///
-  /// panelStartCallback: (activePanelNumber, func){}
-  ///
-  /// At least one of the panelStartCallback, panelProgressCallback, panelEndCallback must be non-null.
+  //callbacks
+
   final Function(num, Function) panelStartCallback;
-
-  /// Called When Panel is about to end w.r.t. guideline.
-  ///
-  /// panelEndCallback: (activePanelNumber, func){}
-  ///
-  /// At least one of the panelStartCallback, panelProgressCallback, panelEndCallback must be non-null.
   final Function(num, Function) panelEndCallback;
-
-  /// Called every frame (when scroll offest changes)
-  ///
-  /// panelProgressCallback: (activePanelNumber, progress, func){}
-  ///
-  /// At least one of the panelStartCallback, panelProgressCallback, panelEndCallback must be non-null.
   final Function(num, double, Function) panelProgressCallback;
 
-  /// Must be Non-null.
-  /// The list of panels form a scrolling sequence.
+  //panelList
   final List<Widget> panels;
 
-  ///Set to true if the last panel hits bottom of the screen hence prohibiting the scroll and want to enable complete scroll.
+  //Set to TRUE if the last panel hits bottom of the screen hence prohibiting the scroll and want to enable complete scroll
   final bool lastPanelForceComplete;
 
-  ///Opacity of each panel in the panel list.
+  //Overlay opacity
   final double opacity;
 
-  ///Overlay widget when scrolling has not started.
+  //Initial overlay widget
   final Widget initialOverlayWidget;
 
-  ///[GuidelinePosition.top, GuidelinePosition.center, GuidelinePosition.bottom]
-  ///
-  /// Guideline is an imaginary reference line.
-  /// When the panel's top coincide with the guideline we say panel has been 'started' or the panel is 'active' and [panelStartCallback] is called.
-  /// Similarily when panel's bottom touch guideline we say panel is ended and [panelEndCallback] is called.
-  /// You can choose the guidelinePosition to be either at ScrollyWidget's top, center, bottom.
+  //Guideline position enum
   final GuidelinePosition guidelinePosition;
 
-  ///Set true to show debug console [activePanelIndex, progress] and debug-line (guideline)
   final showDebugConsole;
 
-  ///Use when [guidelinePosition == GuidelinePosition.center]
-  ///
-  ///Index of the panel which will be docked at the center
-  ///when its middle coincides with the guideline.
   final int stickyChartIndex;
 
   @override
