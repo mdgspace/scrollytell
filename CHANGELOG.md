@@ -1,3 +1,8 @@
+## [1.0.4] - Dec 9,2019
+* Resolved bug for [initalOverlayWidget == null]
+* One of the three callbacks and list of panels is compulsory
+* added documentation
+
 ## [1.0.3] - Dec 8,2019
 
 * Updated description
