@@ -182,6 +182,8 @@ class _ScrollyWidgetState extends State<ScrollyWidget> {
 
     if (widget.initialOverlayWidget != null) {
       _overLayWidget = widget.initialOverlayWidget;
+    }else{
+      _overLayWidget = Container();
     }
 
     _stickyVisibility = true;
