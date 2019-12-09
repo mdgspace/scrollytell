@@ -18,7 +18,6 @@ List<Widget> panelList = [];
 List<Widget> generatePanelList() {
   List<Widget> list = [];
   for (int i = 0; i < 20; i++) {
-
     list.add(Center(
       child: Column(
         children: <Widget>[
@@ -44,21 +43,27 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     panelList = generatePanelList();
+    Widget overlayWidget;
+    Color color;
+    double rad;
 
     Widget _scrollyWidget = ScrollyWidget(
+      initialOverlayWidget: Center(
+        child: Container(
+          width: 0,
+          height: 0,
+        ),
+      ),
       showDebugConsole: true,
       guidelinePosition: GuidelinePosition.center,
       opacity: 0.5,
       panels: panelList,
       panelProgressCallback: (activePanelNumber, progress, func) {
-        Widget overlayWidget;
-        double rad = (progress <= 0.5) ? progress * 200 : 200 - progress * 200;
+        rad = (progress <= 0.5) ? progress * 200 : 200 - progress * 200;
 
-        Color color;
         switch (activePanelNumber) {
           case 1:
             {
